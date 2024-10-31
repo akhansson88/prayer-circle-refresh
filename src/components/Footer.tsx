@@ -39,9 +39,14 @@ const Footer = () => {
         </div>
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-sm">
           <p>&copy; {new Date().getFullYear()} Refresh Europe. All rights reserved.</p>
-          <Link to="/privacy-policy" className="text-gray-400 hover:text-gray-200 text-sm mt-2 inline-block">
-            Privacy Policy
-          </Link>
+          <div className="space-x-4 mt-2">
+            <Link to="/privacy-policy" className="text-gray-400 hover:text-gray-200 text-sm inline-block">
+              Privacy Policy
+            </Link>
+            <Link to="/terms-of-service" className="text-gray-400 hover:text-gray-200 text-sm inline-block">
+              Terms of Service
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
