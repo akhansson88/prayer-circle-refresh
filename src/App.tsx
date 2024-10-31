@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import PrayerRequests from "./pages/PrayerRequests";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
+import GDPRDeletion from "./pages/GDPRDeletion";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -28,6 +29,7 @@ const App = () => (
               <Route path="/prayer-requests" element={<PrayerRequests />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="/gdpr-deletion" element={<GDPRDeletion />} />
             </Routes>
           </main>
           <Footer />

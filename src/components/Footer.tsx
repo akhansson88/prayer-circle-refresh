@@ -1,5 +1,5 @@
-import { Info, Mail, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Info, Mail, MapPin } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -45,6 +45,9 @@ const Footer = () => {
             </Link>
             <Link to="/terms-of-service" className="text-gray-400 hover:text-gray-200 text-sm inline-block">
               Terms of Service
+            </Link>
+            <Link to="/gdpr-deletion" className="text-gray-400 hover:text-gray-200 text-sm inline-block">
+              GDPR Data Deletion
             </Link>
           </div>
         </div>
