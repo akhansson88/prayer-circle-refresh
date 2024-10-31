@@ -1,4 +1,4 @@
-import { Information, Mail, MapPin } from "lucide-react";
+import { Info, Mail, MapPin } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="text-white text-lg font-semibold mb-4 flex items-center">
-              <Information className="h-5 w-5 mr-2" />
+              <Info className="h-5 w-5 mr-2" />
               About Us
             </h3>
             <p className="text-sm">
