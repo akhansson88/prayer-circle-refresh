@@ -5,6 +5,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import PrayerRequests from "./pages/PrayerRequests";
+import Navbar from "./components/Navbar";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const queryClient = new QueryClient();
 
@@ -14,10 +17,17 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/prayer-requests" element={<PrayerRequests />} />
-        </Routes>
+        <div className="flex flex-col min-h-screen">
+          <Header />
+          <Navbar />
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/prayer-requests" element={<PrayerRequests />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
