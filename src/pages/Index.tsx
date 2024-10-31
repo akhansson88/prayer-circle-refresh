@@ -3,13 +3,14 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar } from "@/components/ui/avatar";
 import { useState } from "react";
-import { MessageSquare, Heart, Eye, Share2, Lock } from "lucide-react";
+import { MessageSquare, Heart, Share2, Lock, Unlock } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
   const [prayerRequest, setPrayerRequest] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
   const { toast } = useToast();
+  const [privateRequests, setPrivateRequests] = useState<number[]>([]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,6 +21,14 @@ const Index = () => {
       });
       setPrayerRequest("");
     }
+  };
+
+  const togglePrivacy = (requestId: number) => {
+    setPrivateRequests(prev => 
+      prev.includes(requestId) 
+        ? prev.filter(id => id !== requestId)
+        : [...prev, requestId]
+    );
   };
 
   const prayerRequests = [
@@ -132,9 +141,6 @@ const Index = () => {
                     <Heart className="w-4 h-4" /> {request.prayers}
                   </span>
                   <span className="flex items-center gap-1 text-sm text-gray-500">
-                    <Eye className="w-4 h-4" /> {request.views}
-                  </span>
-                  <span className="flex items-center gap-1 text-sm text-gray-500">
                     <Share2 className="w-4 h-4" />
                   </span>
                 </div>
@@ -146,6 +152,24 @@ const Index = () => {
                 </Button>
                 <Button variant="outline" size="sm">
                   Show Comments
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => togglePrivacy(request.id)}
+                  className="ml-auto"
+                >
+                  {privateRequests.includes(request.id) ? (
+                    <>
+                      <Lock className="w-4 h-4 mr-2" />
+                      Private
+                    </>
+                  ) : (
+                    <>
+                      <Unlock className="w-4 h-4 mr-2" />
+                      Public
+                    </>
+                  )}
                 </Button>
               </div>
             </Card>
