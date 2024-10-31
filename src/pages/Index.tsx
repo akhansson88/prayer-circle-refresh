@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import LoginButton from "@/components/LoginButton";
 import { ArrowRight, Heart, Users, Globe } from "lucide-react";
 import { Link } from "react-router-dom";
+import DonateSection from "@/components/DonateSection";
 
 const Index = () => {
   const { session } = useSessionContext();
@@ -90,6 +91,9 @@ const Index = () => {
           </div>
         </div>
       </div>
+
+      {/* Donate Section */}
+      <DonateSection />
 
       {/* Login Section */}
       {!session && (
