@@ -30,77 +30,79 @@ const Index = () => {
             </CardContent>
           </Card>
         ) : (
-        <div className="grid md:grid-cols-2 gap-6">
-          <Card className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle>Our Mission</CardTitle>
-              <CardDescription>Bringing spiritual renewal to Europe</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">
-                We are dedicated to refreshing the spiritual landscape of Europe through
-                prayer, community engagement, and fostering meaningful connections between
-                believers across the continent.
-              </p>
-            </CardContent>
-          </Card>
+          <div className="space-y-12">
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle>Our Mission</CardTitle>
+                  <CardDescription>Bringing spiritual renewal to Europe</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    We are dedicated to refreshing the spiritual landscape of Europe through
+                    prayer, community engagement, and fostering meaningful connections between
+                    believers across the continent.
+                  </p>
+                </CardContent>
+              </Card>
 
-          <Card className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle>Prayer Network</CardTitle>
-              <CardDescription>Join our community in prayer</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="text-gray-600">
-                Connect with believers across Europe through our prayer network.
-                Share your prayer requests and join others in intercession.
-              </p>
-              <Link to="/prayer-requests">
-                <Button className="w-full bg-indigo-600 hover:bg-indigo-700">
-                  View Prayer Requests
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-        </div>
+              <Card className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle>Prayer Network</CardTitle>
+                  <CardDescription>Join our community in prayer</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-gray-600">
+                    Connect with believers across Europe through our prayer network.
+                    Share your prayer requests and join others in intercession.
+                  </p>
+                  <Link to="/prayer-requests">
+                    <Button className="w-full bg-indigo-600 hover:bg-indigo-700">
+                      View Prayer Requests
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          <Card className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle>Community</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">
-                Build meaningful connections with other believers across Europe
-                through our network of local communities.
-              </p>
-            </CardContent>
-          </Card>
+            <div className="grid md:grid-cols-3 gap-6">
+              <Card className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle>Community</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    Build meaningful connections with other believers across Europe
+                    through our network of local communities.
+                  </p>
+                </CardContent>
+              </Card>
 
-          <Card className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle>Resources</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">
-                Access spiritual resources, teaching materials, and guidance
-                for personal and community growth.
-              </p>
-            </CardContent>
-          </Card>
+              <Card className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle>Resources</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    Access spiritual resources, teaching materials, and guidance
+                    for personal and community growth.
+                  </p>
+                </CardContent>
+              </Card>
 
-          <Card className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle>Events</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">
-                Participate in conferences, workshops, and gatherings designed
-                to strengthen your faith and build community.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+              <Card className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle>Events</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    Participate in conferences, workshops, and gatherings designed
+                    to strengthen your faith and build community.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         )}
       </div>
     </div>
