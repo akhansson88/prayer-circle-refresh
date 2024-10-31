@@ -106,8 +106,17 @@ const Index = () => {
                 className="text-gray-600"
                 onClick={() => setIsPrivate(!isPrivate)}
               >
-                <Lock className="w-4 h-4 mr-2" />
-                Private
+                {isPrivate ? (
+                  <>
+                    <Lock className="w-4 h-4 mr-2" />
+                    Private
+                  </>
+                ) : (
+                  <>
+                    <Unlock className="w-4 h-4 mr-2" />
+                    Public
+                  </>
+                )}
               </Button>
               <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
                 Submit Prayer Request
