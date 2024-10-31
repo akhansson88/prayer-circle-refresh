@@ -23,20 +23,11 @@ const LoginButton = () => {
         });
         
         if (error) {
-          // Check specifically for rate limit error
-          if (error.message.includes("rate limit") || error.status === 429) {
-            toast({
-              title: "Too many attempts",
-              description: "Please wait a few minutes before trying to sign up again.",
-              variant: "destructive",
-            });
-          } else {
-            toast({
-              title: "Error",
-              description: error.message,
-              variant: "destructive",
-            });
-          }
+          toast({
+            title: "Error",
+            description: error.message,
+            variant: "destructive",
+          });
           return;
         }
 
