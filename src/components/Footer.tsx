@@ -1,4 +1,5 @@
 import { Info, Mail, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -38,6 +39,9 @@ const Footer = () => {
         </div>
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-sm">
           <p>&copy; {new Date().getFullYear()} Refresh Europe. All rights reserved.</p>
+          <Link to="/privacy-policy" className="text-gray-400 hover:text-gray-200 text-sm mt-2 inline-block">
+            Privacy Policy
+          </Link>
         </div>
       </div>
     </footer>

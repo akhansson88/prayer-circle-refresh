@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Home, MessageCircle, User, Shield } from "lucide-react";
+import { Home, MessageCircle, User } from "lucide-react";
 
 const Navbar = () => {
   return (
@@ -14,10 +14,6 @@ const Navbar = () => {
             <Link to="/prayer-requests" className="flex items-center px-2 py-2 text-gray-700 hover:text-indigo-600">
               <MessageCircle className="h-5 w-5 mr-1" />
               <span>Prayer Requests</span>
-            </Link>
-            <Link to="/privacy-policy" className="flex items-center px-2 py-2 text-gray-700 hover:text-indigo-600">
-              <Shield className="h-5 w-5 mr-1" />
-              <span>Privacy Policy</span>
             </Link>
           </div>
           <div className="flex items-center">
