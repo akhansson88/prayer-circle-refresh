@@ -10,6 +10,7 @@ import PrayerRequests from "./pages/PrayerRequests";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import GDPRDeletion from "./pages/GDPRDeletion";
+import EmailConfirmation from "./pages/EmailConfirmation";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -35,6 +36,7 @@ const App = () => (
                   <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                   <Route path="/terms-of-service" element={<TermsOfService />} />
                   <Route path="/gdpr-deletion" element={<GDPRDeletion />} />
+                  <Route path="/email-confirmation" element={<EmailConfirmation />} />
                 </Routes>
               </AuthWrapper>
             </main>
