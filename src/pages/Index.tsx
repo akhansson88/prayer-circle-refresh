@@ -1,8 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
+import LoginButton from "@/components/LoginButton";
+import { useSessionContext } from "@supabase/auth-helpers-react";
 
 const Index = () => {
+  const { session } = useSessionContext();
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-indigo-50 p-6">
       <div className="max-w-4xl mx-auto space-y-12 py-12">
@@ -15,6 +19,17 @@ const Index = () => {
           </p>
         </div>
 
+        {!session ? (
+          <Card className="max-w-md mx-auto bg-white/80 backdrop-blur-sm">
+            <CardHeader className="text-center">
+              <CardTitle>Welcome to Refresh Europe</CardTitle>
+              <CardDescription>Sign in to join our prayer community</CardDescription>
+            </CardHeader>
+            <CardContent className="flex justify-center">
+              <LoginButton />
+            </CardContent>
+          </Card>
+        ) : (
         <div className="grid md:grid-cols-2 gap-6">
           <Card className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
             <CardHeader>
@@ -86,6 +101,7 @@ const Index = () => {
             </CardContent>
           </Card>
         </div>
+        )}
       </div>
     </div>
   );
