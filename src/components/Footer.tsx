@@ -32,8 +32,11 @@ const Footer = () => {
               Location
             </h3>
             <p className="text-sm">
-              123 Faith Street<br />
-              Brussels, Belgium 1000
+              Hauptstraße 123<br />
+              10115 Berlin, Germany<br />
+              <br />
+              Drottninggatan 45<br />
+              111 51 Stockholm, Sweden
             </p>
           </div>
         </div>
