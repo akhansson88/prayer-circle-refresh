@@ -17,24 +17,32 @@ const LoginButton = () => {
     setIsLoading(true);
     try {
       if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/email-confirmation`,
+          }
         });
         
+        console.log("Signup response:", { data, error }); // Debug log
+        
         if (error) {
+          console.error("Signup error details:", error); // Debug log
           toast({
-            title: "Error",
-            description: error.message,
+            title: "Signup Error",
+            description: `Failed to sign up: ${error.message}`,
             variant: "destructive",
           });
           return;
         }
 
-        toast({
-          title: "Success",
-          description: "Please check your email to verify your account.",
-        });
+        if (data?.user) {
+          toast({
+            title: "Success",
+            description: "Please check your email to verify your account.",
+          });
+        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email,
@@ -42,8 +50,9 @@ const LoginButton = () => {
         });
         
         if (error) {
+          console.error("Signin error details:", error); // Debug log
           toast({
-            title: "Error",
+            title: "Sign In Error",
             description: error.message,
             variant: "destructive",
           });
@@ -51,9 +60,10 @@ const LoginButton = () => {
         }
       }
     } catch (error: any) {
+      console.error("Authentication error:", error); // Debug log
       toast({
         title: "Error",
-        description: error.message,
+        description: "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });
     } finally {
