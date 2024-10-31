@@ -2,7 +2,7 @@ import { useSessionContext } from "@supabase/auth-helpers-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import LoginButton from "@/components/LoginButton";
-import { ArrowRight, Heart, Users, Globe } from "lucide-react";
+import { ArrowRight, Heart, Users, Globe, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import DonateSection from "@/components/DonateSection";
 
@@ -88,6 +88,41 @@ const Index = () => {
                 </p>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* About Section */}
+      <div className="py-24 bg-gradient-to-b from-indigo-50 to-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="inline-block p-3 bg-indigo-100 rounded-full mb-4">
+              <BookOpen className="h-8 w-8 text-indigo-600" />
+            </div>
+            <h2 className="text-3xl font-bold mb-4">Our Story</h2>
+            <p className="text-lg text-gray-600 mb-8">
+              Founded in 2020 during the global pandemic, Refresh Europe emerged from a vision
+              to unite believers across the continent in prayer and spiritual renewal.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold text-indigo-600">Our Beginnings</h3>
+              <p className="text-gray-600">
+                What started as online prayer meetings between churches in Berlin and Stockholm
+                quickly grew into a movement spanning multiple European countries. Our founders
+                recognized the deep spiritual hunger across Europe and the power of united prayer.
+              </p>
+            </div>
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold text-indigo-600">Growing Impact</h3>
+              <p className="text-gray-600">
+                Today, Refresh Europe connects thousands of believers through our prayer network,
+                facilitating spiritual growth and fostering unity across denominational and
+                cultural boundaries. Our mission continues to expand as we witness the
+                transformative power of prayer in communities across Europe.
+              </p>
+            </div>
           </div>
         </div>
       </div>
