@@ -21,19 +21,7 @@ const LoginButton = () => {
           email,
           password,
         });
-        
-        if (error) {
-          if (error.message.includes("over_email_send_rate_limit")) {
-            toast({
-              title: "Too many attempts",
-              description: "Please wait a few minutes before trying to sign up again.",
-              variant: "destructive",
-            });
-          } else {
-            throw error;
-          }
-          return;
-        }
+        if (error) throw error;
 
         toast({
           title: "Success",
