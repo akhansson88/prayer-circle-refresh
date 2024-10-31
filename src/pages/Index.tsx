@@ -2,19 +2,103 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar } from "@/components/ui/avatar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MessageSquare, Heart, Share2, Lock, Unlock } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+
+interface PrayerRequest {
+  id: number;
+  author_name: string;
+  content: string;
+  created_at: string;
+  prayers_count: number;
+  is_private: boolean;
+}
 
 const Index = () => {
   const [prayerRequest, setPrayerRequest] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
   const { toast } = useToast();
-  const [privateRequests, setPrivateRequests] = useState<number[]>([]);
+  const [prayerRequests, setPrayerRequests] = useState<PrayerRequest[]>([]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    // Initial fetch of prayer requests
+    fetchPrayerRequests();
+
+    // Set up real-time subscription
+    const subscription = supabase
+      .channel('prayer_requests_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'prayer_requests'
+        },
+        (payload) => {
+          if (payload.eventType === 'INSERT') {
+            setPrayerRequests(prev => [payload.new as PrayerRequest, ...prev]);
+          } else if (payload.eventType === 'UPDATE') {
+            setPrayerRequests(prev => 
+              prev.map(request => 
+                request.id === payload.new.id ? payload.new as PrayerRequest : request
+              )
+            );
+          } else if (payload.eventType === 'DELETE') {
+            setPrayerRequests(prev => 
+              prev.filter(request => request.id !== payload.old.id)
+            );
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const fetchPrayerRequests = async () => {
+    const { data, error } = await supabase
+      .from('prayer_requests')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      toast({
+        title: "Error fetching prayer requests",
+        description: error.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setPrayerRequests(data);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (prayerRequest.trim()) {
+      const { error } = await supabase
+        .from('prayer_requests')
+        .insert([
+          {
+            content: prayerRequest,
+            author_name: "Anonymous", // You can update this when auth is implemented
+            is_private: isPrivate,
+          }
+        ]);
+
+      if (error) {
+        toast({
+          title: "Error submitting prayer request",
+          description: error.message,
+          variant: "destructive",
+        });
+        return;
+      }
+
       toast({
         title: "Prayer request submitted",
         description: "Your prayer request has been shared with our prayer team.",
@@ -23,52 +107,30 @@ const Index = () => {
     }
   };
 
-  const togglePrivacy = (requestId: number) => {
-    setPrivateRequests(prev => 
-      prev.includes(requestId) 
-        ? prev.filter(id => id !== requestId)
-        : [...prev, requestId]
-    );
+  const togglePrivacy = async (requestId: number, currentPrivacy: boolean) => {
+    const { error } = await supabase
+      .from('prayer_requests')
+      .update({ is_private: !currentPrivacy })
+      .eq('id', requestId);
+
+    if (error) {
+      toast({
+        title: "Error updating privacy",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
   };
 
-  const prayerRequests = [
-    {
-      id: 1,
-      author: "Alexander Hansson",
-      avatar: "/avatar.jpg",
-      content: "Pray for the leaders of the European nations.",
-      date: "Oct 24, 2024, 3:21 PM",
-      prayers: 2,
-      views: 5,
-    },
-    {
-      id: 2,
-      author: "Alexander Hansson",
-      avatar: "/avatar.jpg",
-      content: "Please pray for the development of this website.",
-      date: "Oct 24, 2024, 5:07 PM",
-      prayers: 0,
-      views: 3,
-    },
-    {
-      id: 3,
-      author: "Alexander Hansson",
-      avatar: "/avatar.jpg",
-      content: "Is this seen",
-      date: "Oct 24, 2024, 12:36 AM",
-      prayers: 1,
-      views: 4,
-    },
-    {
-      id: 4,
-      author: "Robert Deniro",
-      avatar: "/avatar.jpg",
-      content: "Testing.",
-      date: "Oct 26, 2024, 11:37 PM",
-      prayers: 0,
-      views: 2,
-    },
-  ];
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-indigo-50 p-6">
@@ -139,17 +201,17 @@ const Index = () => {
                 <div className="flex gap-3">
                   <Avatar>
                     <div className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-medium">
-                      {request.author[0]}
+                      {request.author_name[0]}
                     </div>
                   </Avatar>
                   <div>
-                    <h3 className="font-semibold text-gray-900">{request.author}</h3>
-                    <p className="text-sm text-gray-500">{request.date}</p>
+                    <h3 className="font-semibold text-gray-900">{request.author_name}</h3>
+                    <p className="text-sm text-gray-500">{formatDate(request.created_at)}</p>
                   </div>
                 </div>
                 <div className="flex gap-2">
                   <span className="flex items-center gap-1 text-sm text-gray-500">
-                    <Heart className="w-4 h-4 text-rose-500" /> {request.prayers}
+                    <Heart className="w-4 h-4 text-rose-500" /> {request.prayers_count}
                   </span>
                   <span className="flex items-center gap-1 text-sm text-gray-500">
                     <Share2 className="w-4 h-4 text-indigo-500" />
@@ -167,10 +229,10 @@ const Index = () => {
                 <Button 
                   variant="outline" 
                   size="sm"
-                  onClick={() => togglePrivacy(request.id)}
+                  onClick={() => togglePrivacy(request.id, request.is_private)}
                   className="ml-auto hover:bg-indigo-50"
                 >
-                  {privateRequests.includes(request.id) ? (
+                  {request.is_private ? (
                     <>
                       <Lock className="w-4 h-4 mr-2" />
                       Private
