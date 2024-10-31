@@ -1,109 +1,123 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Link } from "react-router-dom";
-import LoginButton from "@/components/LoginButton";
 import { useSessionContext } from "@supabase/auth-helpers-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import LoginButton from "@/components/LoginButton";
+import { ArrowRight, Heart, Users, Globe } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const { session } = useSessionContext();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-indigo-50 p-6">
-      <div className="max-w-4xl mx-auto space-y-12 py-12">
-        <div className="text-center space-y-4">
-          <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
-            Refresh Europe
-          </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Empowering Christian communities across Europe through prayer, fellowship, and ministry
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <div 
+        className="relative h-[600px] bg-cover bg-center"
+        style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1473177104440-ffee2f376098')",
+          backgroundBlendMode: "overlay",
+          backgroundColor: "rgba(0, 0, 0, 0.5)"
+        }}
+      >
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center text-white p-6 max-w-4xl">
+            <h1 className="text-5xl font-bold mb-6">Uniting Europe Through Prayer</h1>
+            <p className="text-xl mb-8">
+              Join a community dedicated to spiritual renewal across Europe through
+              prayer, fellowship, and ministry.
+            </p>
+            {session ? (
+              <Link to="/prayer-requests">
+                <Button size="lg" className="bg-indigo-600 hover:bg-indigo-700">
+                  View Prayer Requests <ArrowRight className="ml-2" />
+                </Button>
+              </Link>
+            ) : (
+              <Button
+                size="lg"
+                className="bg-indigo-600 hover:bg-indigo-700"
+                onClick={() => document.getElementById("login-section")?.scrollIntoView({ behavior: "smooth" })}
+              >
+                Join Our Community <ArrowRight className="ml-2" />
+              </Button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Features Section */}
+      <div className="py-24 bg-gradient-to-b from-blue-50 to-indigo-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-3 gap-12">
+            <Card className="bg-white/80 backdrop-blur-sm">
+              <CardContent className="pt-6">
+                <div className="rounded-full bg-indigo-100 w-12 h-12 flex items-center justify-center mb-4">
+                  <Heart className="h-6 w-6 text-indigo-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">United in Prayer</h3>
+                <p className="text-gray-600">
+                  Connect with believers across Europe and share your prayer requests
+                  in a supportive community.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white/80 backdrop-blur-sm">
+              <CardContent className="pt-6">
+                <div className="rounded-full bg-indigo-100 w-12 h-12 flex items-center justify-center mb-4">
+                  <Users className="h-6 w-6 text-indigo-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Growing Fellowship</h3>
+                <p className="text-gray-600">
+                  Build meaningful connections with other believers and support each
+                  other in your spiritual journey.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white/80 backdrop-blur-sm">
+              <CardContent className="pt-6">
+                <div className="rounded-full bg-indigo-100 w-12 h-12 flex items-center justify-center mb-4">
+                  <Globe className="h-6 w-6 text-indigo-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">European Revival</h3>
+                <p className="text-gray-600">
+                  Be part of a movement bringing spiritual renewal across the
+                  European continent.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* Login Section */}
+      {!session && (
+        <div id="login-section" className="py-24 bg-white">
+          <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center mb-8">Join Our Community</h2>
+            <LoginButton />
+          </div>
+        </div>
+      )}
+
+      {/* Mission Section */}
+      <div 
+        className="relative py-24 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1517022812141-23620dba5c23')",
+          backgroundBlendMode: "overlay",
+          backgroundColor: "rgba(0, 0, 0, 0.7)"
+        }}
+      >
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+          <h2 className="text-3xl font-bold mb-6">Our Mission</h2>
+          <p className="text-xl">
+            "Like a shepherd leading his flock, we believe in guiding and supporting
+            each other through prayer and fellowship. Together, we can bring about
+            spiritual renewal across Europe, one prayer at a time."
           </p>
         </div>
-
-        {!session ? (
-          <Card className="max-w-md mx-auto bg-white/80 backdrop-blur-sm">
-            <CardHeader className="text-center">
-              <CardTitle>Welcome to Refresh Europe</CardTitle>
-              <CardDescription>Sign in to join our prayer community</CardDescription>
-            </CardHeader>
-            <CardContent className="flex justify-center">
-              <LoginButton />
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="space-y-12">
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle>Our Mission</CardTitle>
-                  <CardDescription>Bringing spiritual renewal to Europe</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600">
-                    We are dedicated to refreshing the spiritual landscape of Europe through
-                    prayer, community engagement, and fostering meaningful connections between
-                    believers across the continent.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle>Prayer Network</CardTitle>
-                  <CardDescription>Join our community in prayer</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-gray-600">
-                    Connect with believers across Europe through our prayer network.
-                    Share your prayer requests and join others in intercession.
-                  </p>
-                  <Link to="/prayer-requests">
-                    <Button className="w-full bg-indigo-600 hover:bg-indigo-700">
-                      View Prayer Requests
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              <Card className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle>Community</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600">
-                    Build meaningful connections with other believers across Europe
-                    through our network of local communities.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle>Resources</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600">
-                    Access spiritual resources, teaching materials, and guidance
-                    for personal and community growth.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle>Events</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600">
-                    Participate in conferences, workshops, and gatherings designed
-                    to strengthen your faith and build community.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
