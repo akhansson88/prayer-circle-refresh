@@ -14,6 +14,15 @@ const LoginButton = () => {
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email || !password) {
+      toast({
+        title: "Error",
+        description: "Please fill in all fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
     try {
       if (isSignUp) {
@@ -22,18 +31,26 @@ const LoginButton = () => {
           password,
           options: {
             emailRedirectTo: `${window.location.origin}/email-confirmation`,
-          }
+            data: {
+              email_confirm_sent_at: new Date().toISOString(),
+            },
+          },
         });
-        
-        console.log("Signup response:", { data, error }); // Debug log
-        
+
         if (error) {
-          console.error("Signup error details:", error); // Debug log
-          toast({
-            title: "Signup Error",
-            description: `Failed to sign up: ${error.message}`,
-            variant: "destructive",
-          });
+          if (error.message.includes('rate limit')) {
+            toast({
+              title: "Sign Up Error",
+              description: "Please wait a few minutes before trying to sign up again.",
+              variant: "destructive",
+            });
+          } else {
+            toast({
+              title: "Sign Up Error",
+              description: error.message,
+              variant: "destructive",
+            });
+          }
           return;
         }
 
@@ -42,6 +59,8 @@ const LoginButton = () => {
             title: "Success",
             description: "Please check your email to verify your account.",
           });
+          setEmail("");
+          setPassword("");
         }
       } else {
         const { error } = await supabase.auth.signInWithPassword({
@@ -50,7 +69,6 @@ const LoginButton = () => {
         });
         
         if (error) {
-          console.error("Signin error details:", error); // Debug log
           toast({
             title: "Sign In Error",
             description: error.message,
@@ -60,10 +78,9 @@ const LoginButton = () => {
         }
       }
     } catch (error: any) {
-      console.error("Authentication error:", error); // Debug log
       toast({
         title: "Error",
-        description: "An unexpected error occurred. Please try again.",
+        description: "An unexpected error occurred. Please try again later.",
         variant: "destructive",
       });
     } finally {
@@ -96,6 +113,7 @@ const LoginButton = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               disabled={isLoading}
+              minLength={6}
             />
           </div>
           <Button type="submit" className="w-full" disabled={isLoading}>
