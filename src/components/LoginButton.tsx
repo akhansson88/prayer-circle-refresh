@@ -9,17 +9,32 @@ const LoginButton = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       if (isSignUp) {
         const { error } = await supabase.auth.signUp({
           email,
           password,
         });
-        if (error) throw error;
+        
+        if (error) {
+          if (error.message.includes("over_email_send_rate_limit")) {
+            toast({
+              title: "Too many attempts",
+              description: "Please wait a few minutes before trying to sign up again.",
+              variant: "destructive",
+            });
+          } else {
+            throw error;
+          }
+          return;
+        }
+
         toast({
           title: "Success",
           description: "Please check your email to verify your account.",
@@ -37,6 +52,8 @@ const LoginButton = () => {
         description: error.message,
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -54,6 +71,7 @@ const LoginButton = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
           <div className="space-y-2">
@@ -63,16 +81,18 @@ const LoginButton = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
-          <Button type="submit" className="w-full">
-            {isSignUp ? "Sign Up" : "Sign In"}
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? "Please wait..." : (isSignUp ? "Sign Up" : "Sign In")}
           </Button>
           <Button
             type="button"
             variant="ghost"
             className="w-full"
             onClick={() => setIsSignUp(!isSignUp)}
+            disabled={isLoading}
           >
             {isSignUp ? "Already have an account? Sign In" : "Need an account? Sign Up"}
           </Button>
